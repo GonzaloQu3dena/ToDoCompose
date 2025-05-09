@@ -1,0 +1,49 @@
+# Android Studio
+.idea/*
+!.idea/codeStyles
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+
+# Build and generated files
+/build/
+**/build/
+.cxx/
+.externalNativeBuild/
+captures/
+
+# Gradle
+.gradle/
+local.properties
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Kotlin
+*.log
+.kotlinc/
+
+# Jetpack Compose previews
+*.preview.cache
+
+# MacOS
+.DS_Store
+
+# OS-specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Misc
+*.swp
+*.bak
+*.tmp
+*.class
+*.dex
+*.apk
+*.ap_
+
+# Git ignore files inside submodules (optional, safe to exclude)
+.idea/.gitignore
+/app/.gitignore
