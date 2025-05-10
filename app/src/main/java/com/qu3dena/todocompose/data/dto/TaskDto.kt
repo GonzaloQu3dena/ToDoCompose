@@ -1,6 +1,7 @@
 package com.qu3dena.todocompose.data.dto
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.qu3dena.todocompose.domain.entities.Task
 
 /**
@@ -12,6 +13,7 @@ import com.qu3dena.todocompose.domain.entities.Task
  */
 @Entity(tableName = "tasks")
 data class TaskDto(
+    @PrimaryKey
     val id: String,
     val title: String,
     val description: String,
