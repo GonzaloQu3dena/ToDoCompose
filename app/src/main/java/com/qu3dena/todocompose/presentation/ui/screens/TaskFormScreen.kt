@@ -14,12 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 
@@ -33,8 +32,7 @@ import com.qu3dena.todocompose.shared.components.GenericOutlinedTextField
 
 @Composable
 fun TaskFormScreen(
-    modifier: Modifier = Modifier,
-    onSave: () -> Unit
+    modifier: Modifier = Modifier
 ) {
     var title by remember { mutableStateOf(TextFieldValue("")) }
     var description by remember { mutableStateOf(TextFieldValue("")) }
@@ -75,12 +73,14 @@ fun TaskFormScreen(
 
         GenericFloatingActionButton(
             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
-            onClick = onSave,
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Check,
+                    imageVector = Icons.Default.Save,
                     contentDescription = null,
                 )
+            },
+            onClick = {
+               /*TODO*/
             }
         )
     }

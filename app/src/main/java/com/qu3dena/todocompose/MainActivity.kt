@@ -9,8 +9,14 @@ import com.qu3dena.todocompose.presentation.navigation.NavGraph
 import com.qu3dena.todocompose.presentation.ui.screens.MainScreen
 import com.qu3dena.todocompose.presentation.ui.theme.ToDoComposeTheme
 
+/**
+ * Main activity for the ToDoCompose application.
+ */
 class MainActivity : ComponentActivity() {
 
+    /**
+     * Called when the activity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,7 +25,7 @@ class MainActivity : ComponentActivity() {
             ToDoComposeTheme {
                 val navController = rememberNavController()
 
-                MainScreen { modifier ->
+                MainScreen(navController) { modifier ->
                     NavGraph(navController = navController, modifier = modifier)
                 }
 
