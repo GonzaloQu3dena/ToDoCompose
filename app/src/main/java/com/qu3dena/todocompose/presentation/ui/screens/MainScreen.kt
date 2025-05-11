@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Arrangement
@@ -38,38 +37,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.qu3dena.todocompose.presentation.navigation.Screen
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.qu3dena.todocompose.presentation.navigation.SetUpNavigation
 
 /**
  * Main screen of the application.
  * This screen contains the app bar, navigation bar, and the main content area.
- * @param navController The NavHostController for navigation.
- * @param bodyContent The content to be displayed in the main area.
+ * @param navHostController The NavHostController for navigation.
  */
 @Composable
 fun MainScreen(
-    navController: NavHostController,
-    bodyContent: @Composable (Modifier) -> Unit,
+    navHostController: NavHostController
 ) {
-    Scaffold { padding ->
-        Column(
+    Scaffold(
+        topBar = { AppBar() },
+
+        bottomBar = {
+            NavBar(modifier = Modifier
+                .fillMaxWidth(), navHostController)
+        }
+    ) { padding ->
+        Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(padding)
         ) {
-            AppBar(modifier = Modifier.fillMaxWidth())
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
-                bodyContent(Modifier.fillMaxSize())
-            }
-
-            NavBar(
-                modifier = Modifier.fillMaxWidth(),
-                navController = navController
-            )
+            SetUpNavigation(navHostController = navHostController)
         }
     }
 }
