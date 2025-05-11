@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -77,10 +78,26 @@ class TaskViewModel(
      */
     fun addOrUpdateTask(task: Task) {
         viewModelScope.launch {
-            if (task.id.isEmpty()) {
-                addTaskUseCase.execute(task)
-            } else {
+
+            if (_selectedTask.value != null) {
                 updateTaskUseCase.execute(task)
+
+                _state.update {
+                    val updatedTasks = it.tasks.map { t ->
+                        if (t.id == task.id) task else t
+                    }
+                    it.copy(tasks = updatedTasks)
+                }
+
+                clearSelectedTask()
+            }
+            else {
+                addTaskUseCase.execute(task)
+
+                _state.update {
+                    val updatedTasks = it.tasks + task
+                    it.copy(tasks = updatedTasks)
+                }
             }
         }
     }
@@ -91,6 +108,14 @@ class TaskViewModel(
     fun deleteTask(task: Task) {
         viewModelScope.launch {
             deleteTaskUseCase.execute(task)
+
+            _state.update {
+                val updatedTasks = it.tasks.filter {
+                    t -> t.id != task.id
+                }
+
+                it.copy(tasks = updatedTasks);
+            }
         }
     }
 }
