@@ -1,5 +1,6 @@
 package com.qu3dena.todocompose.presentation.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Checkbox
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,10 +68,11 @@ fun TaskListScreen(
             } else {
                 LazyColumn {
                     items(state.value.tasks) { task ->
-                        TaskItem(
+                        TaskItemView(
                             task = task,
                             onEdit = { onEditTask(task) },
-                            onDelete = { viewModel.deleteTask(task) }
+                            onDelete = { viewModel.deleteTask(task) },
+                            onToggleCompleted = { viewModel.toggleTaskCompleted(task) }
                         )
                     }
                 }
@@ -94,10 +97,11 @@ fun TaskListScreen(
 }
 
 @Composable
-fun TaskItem(
+fun TaskItemView(
     task: Task,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onToggleCompleted: (Task) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -106,7 +110,22 @@ fun TaskItem(
         elevation = CardDefaults.cardElevation()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = task.title, style = MaterialTheme.typography.titleMedium)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = task.title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Checkbox(
+                    checked = task.isCompleted,
+                    onCheckedChange = { onToggleCompleted(task) }
+                )
+            }
+
             Text(text = task.description ?: "", style = MaterialTheme.typography.bodyMedium)
 
             Box {

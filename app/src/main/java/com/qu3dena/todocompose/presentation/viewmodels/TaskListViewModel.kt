@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import com.qu3dena.todocompose.domain.entities.Task
 import com.qu3dena.todocompose.domain.usecases.GetTasksUseCase
 import com.qu3dena.todocompose.domain.usecases.DeleteTaskUseCase
+import com.qu3dena.todocompose.domain.usecases.UpdateTaskUseCase
 import com.qu3dena.todocompose.presentation.ui.states.TaskUIState
 
 /**
@@ -25,6 +26,7 @@ import com.qu3dena.todocompose.presentation.ui.states.TaskUIState
 class TaskListViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskUIState())
@@ -55,6 +57,25 @@ class TaskListViewModel(
                 }
 
                 it.copy(tasks = updatedTasks);
+            }
+        }
+    }
+
+    /**
+     * Toggles the completion status of a task.
+     * @param task The task whose completion status is to be toggled.
+     */
+    fun toggleTaskCompleted(task: Task) {
+        viewModelScope.launch {
+            val updatedTask = task.copy(isCompleted = !task.isCompleted)
+            updateTaskUseCase.execute(updatedTask)
+
+            _state.update {
+                val updatedTasks = it.tasks.map { t ->
+                    if (t.id == task.id) updatedTask else t
+                }
+
+                it.copy(tasks = updatedTasks)
             }
         }
     }
