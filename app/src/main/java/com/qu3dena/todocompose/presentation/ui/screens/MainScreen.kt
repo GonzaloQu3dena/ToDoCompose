@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.qu3dena.todocompose.presentation.navigation.Screen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.qu3dena.todocompose.presentation.navigation.SetUpNavigation
@@ -78,9 +79,10 @@ private fun AppBar(modifier: Modifier = Modifier) {
     ) {
         Box(
             modifier = Modifier
-                .height(60.dp)
+                .height(80.dp)
                 .fillMaxWidth()
-                .background(color = Color.LightGray),
+                .background(Color.LightGray)
+                .padding(15.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -134,10 +136,13 @@ private fun NavBar(
                 onClick = {
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+
+                            val startDestinationId = navController
+                                .graph.findStartDestination().id
+
+                            popUpTo(startDestinationId) {
+                                inclusive = true
                             }
-                            restoreState = true
                             launchSingleTop = true
                         }
                     }
@@ -146,13 +151,15 @@ private fun NavBar(
                     val icon = when (screen) {
                         Screen.Home -> Icons.Default.Home
                         Screen.TaskList -> Icons.Default.Task
-                        Screen.TaskForm -> Icons.Default.PlayArrow
+                        else -> null
                     }
-                    NavigationBarIcon(
-                        icon = icon,
-                        indicatorColor = Color.White,
-                        isSelected = currentRoute == screen.route
-                    )
+                    if (icon != null) {
+                        NavigationBarIcon(
+                            icon = icon,
+                            indicatorColor = Color.White,
+                            isSelected = currentRoute == screen.route
+                        )
+                    }
                 }
             )
 
