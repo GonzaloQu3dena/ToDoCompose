@@ -27,7 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.qu3dena.todocompose.domain.entities.Task
-import com.qu3dena.todocompose.presentation.viewmodels.TaskViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskFormViewModel
 
 import com.qu3dena.todocompose.shared.components.GenericOutlinedTextField
 import com.qu3dena.todocompose.shared.components.GenericFloatingActionButton
@@ -35,7 +35,7 @@ import com.qu3dena.todocompose.shared.components.GenericFloatingActionButton
 @Composable
 fun TaskFormScreen(
     modifier: Modifier = Modifier,
-    viewModel: TaskViewModel,
+    viewModel: TaskFormViewModel,
     onTaskSaved: () -> Unit
 ) {
     var title by remember { mutableStateOf(TextFieldValue("")) }

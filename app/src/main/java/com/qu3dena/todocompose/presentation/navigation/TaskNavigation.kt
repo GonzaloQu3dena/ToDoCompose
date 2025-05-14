@@ -14,13 +14,14 @@ fun NavGraphBuilder.taskNavigation(
     modifier: Modifier,
     navHostController: NavHostController
 ) {
-    val taskViewModel = PresentationModule.getTaskViewModel()
+
+    val taskListViewModel =  PresentationModule.getTaskListViewModel()
 
     composable(Screen.TaskList.route) {
 
         TaskListScreen(
             modifier = modifier,
-            viewModel = taskViewModel,
+            viewModel = taskListViewModel,
 
             onAddTask = {
                 navHostController.navigate(Screen.TaskForm.route)
@@ -28,11 +29,13 @@ fun NavGraphBuilder.taskNavigation(
         )
     }
 
+    val taskFormViewModel = PresentationModule.getTaskFormViewModel()
+
     composable(Screen.TaskForm.route) {
 
         TaskFormScreen(
             modifier = modifier,
-            viewModel = taskViewModel,
+            viewModel = taskFormViewModel,
             onTaskSaved = {
                 navHostController.popBackStack()
             }

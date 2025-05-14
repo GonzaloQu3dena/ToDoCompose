@@ -31,13 +31,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import com.qu3dena.todocompose.domain.entities.Task
 
-import com.qu3dena.todocompose.presentation.viewmodels.TaskViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskFormViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskListViewModel
 import com.qu3dena.todocompose.shared.components.GenericFloatingActionButton
 
 @Composable
 fun TaskListScreen(
     modifier: Modifier = Modifier,
-    viewModel: TaskViewModel,
+    viewModel: TaskListViewModel,
     onAddTask: () -> Unit,
 ) {
 
@@ -91,7 +92,7 @@ fun TaskListScreen(
 @Composable
 fun TaskItem(
     task: Task,
-    viewModel: TaskViewModel
+    viewModel: TaskListViewModel
 ) {
     Card(
         modifier = Modifier

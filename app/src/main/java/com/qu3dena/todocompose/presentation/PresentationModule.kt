@@ -2,10 +2,11 @@ package com.qu3dena.todocompose.presentation
 
 import com.qu3dena.todocompose.data.DataModule
 import com.qu3dena.todocompose.domain.usecases.AddTaskUseCase
-import com.qu3dena.todocompose.domain.usecases.DeleteTaskUseCase
 import com.qu3dena.todocompose.domain.usecases.GetTasksUseCase
+import com.qu3dena.todocompose.domain.usecases.DeleteTaskUseCase
 import com.qu3dena.todocompose.domain.usecases.UpdateTaskUseCase
-import com.qu3dena.todocompose.presentation.viewmodels.TaskViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskFormViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskListViewModel
 
 /**
  * Module for providing dependencies related to the presentation layer.
@@ -14,18 +15,33 @@ import com.qu3dena.todocompose.presentation.viewmodels.TaskViewModel
 object PresentationModule {
 
     /**
-     * Provides an instance of TaskViewModel.
-     * This method creates a new instance of TaskViewModel and injects the necessary use cases.
-     * @return An instance of TaskViewModel configured with the required use cases.
+     * Provides an instance of [TaskListViewModel].
+     * This ViewModel is responsible for managing the task list and handling user interactions related to tasks.
+     * It uses the [GetTasksUseCase] to retrieve tasks and the [DeleteTaskUseCase] to delete tasks.
+     * @return An instance of [TaskListViewModel].
      */
-    fun getTaskViewModel(): TaskViewModel {
+    fun getTaskListViewModel(): TaskListViewModel {
 
         val taskRepository = DataModule.getTaskRepository()
 
-        return TaskViewModel(
-            addTaskUseCase = AddTaskUseCase(taskRepository),
+        return TaskListViewModel(
             getTasksUseCase = GetTasksUseCase(taskRepository),
-            deleteTaskUseCase = DeleteTaskUseCase(taskRepository),
+            deleteTaskUseCase = DeleteTaskUseCase(taskRepository)
+        )
+    }
+
+    /**
+     * Provides an instance of [TaskFormViewModel].
+     * This ViewModel is responsible for managing the task form and handling user interactions related to adding or updating tasks.
+     * It uses the [AddTaskUseCase] to add new tasks and the [UpdateTaskUseCase] to update existing tasks.
+     * @return An instance of [TaskFormViewModel].
+     */
+    fun getTaskFormViewModel(): TaskFormViewModel {
+
+        val taskRepository = DataModule.getTaskRepository()
+
+        return TaskFormViewModel(
+            addTaskUseCase = AddTaskUseCase(taskRepository),
             updateTaskUseCase = UpdateTaskUseCase(taskRepository)
         )
     }
