@@ -30,9 +30,6 @@ class TaskListViewModel(
     private val _state = MutableStateFlow(TaskUIState())
     val state: StateFlow<TaskUIState> = _state.asStateFlow()
 
-    private val _selectedTask = MutableStateFlow<Task?>(null)
-    val selectedTask: StateFlow<Task?> = _selectedTask.asStateFlow()
-
     /**
      * Loads tasks using the provided use case.
      */
@@ -43,19 +40,6 @@ class TaskListViewModel(
                 .catch { error -> _state.value = _state.value.copy(error = error.message) }
                 .collect { tasks -> _state.value = _state.value.copy(tasks = tasks, isLoading = false) }
         }
-    }
-    /**
-     * Selects a task to be edited or viewed.
-     * @param task The task to be selected.
-     */
-    fun selectTask(task: Task) {
-        _selectedTask.value = task
-    }
-    /**
-     * Clears the selected task.
-     */
-    fun clearSelectedTask() {
-        _selectedTask.value = null
     }
     /**
      * Deletes a task using the provided use case.

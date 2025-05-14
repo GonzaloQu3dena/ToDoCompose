@@ -41,7 +41,6 @@ fun NavGraphBuilder.taskNavigation(
             viewModel = taskFormViewModel,
             onTaskSaved = {
                 navHostController.popBackStack()
-                taskListViewModel.loadTasks()
             }
         )
     }
