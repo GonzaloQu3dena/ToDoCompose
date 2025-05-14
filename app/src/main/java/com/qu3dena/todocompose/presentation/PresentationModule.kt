@@ -7,6 +7,7 @@ import com.qu3dena.todocompose.domain.usecases.DeleteTaskUseCase
 import com.qu3dena.todocompose.domain.usecases.UpdateTaskUseCase
 import com.qu3dena.todocompose.presentation.viewmodels.TaskFormViewModel
 import com.qu3dena.todocompose.presentation.viewmodels.TaskListViewModel
+import com.qu3dena.todocompose.presentation.viewmodels.TaskSummaryViewModel
 
 /**
  * Module for providing dependencies related to the presentation layer.
@@ -26,7 +27,8 @@ object PresentationModule {
 
         return TaskListViewModel(
             getTasksUseCase = GetTasksUseCase(taskRepository),
-            deleteTaskUseCase = DeleteTaskUseCase(taskRepository)
+            deleteTaskUseCase = DeleteTaskUseCase(taskRepository),
+            updateTaskUseCase = UpdateTaskUseCase(taskRepository)
         )
     }
 
@@ -43,6 +45,20 @@ object PresentationModule {
         return TaskFormViewModel(
             addTaskUseCase = AddTaskUseCase(taskRepository),
             updateTaskUseCase = UpdateTaskUseCase(taskRepository)
+        )
+    }
+
+    /**
+     * Provides an instance of [TaskSummaryViewModel].
+     * This ViewModel is responsible for managing the task summary and handling user interactions related to viewing task summaries.
+     * It uses the [GetTasksUseCase] to retrieve tasks.
+     * @return An instance of [TaskSummaryViewModel].
+     */
+    fun getTaskSummaryViewModel(): TaskSummaryViewModel {
+        val taskRepository = DataModule.getTaskRepository()
+
+        return TaskSummaryViewModel(
+            getTasksUseCase = GetTasksUseCase(taskRepository)
         )
     }
 }
