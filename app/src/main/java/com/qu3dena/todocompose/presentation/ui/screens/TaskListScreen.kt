@@ -40,6 +40,7 @@ fun TaskListScreen(
     modifier: Modifier = Modifier,
     viewModel: TaskListViewModel,
     onAddTask: () -> Unit,
+    onEditTask: (Task) -> Unit
 ) {
 
     val state = viewModel.state.collectAsState()
@@ -66,7 +67,11 @@ fun TaskListScreen(
             } else {
                 LazyColumn {
                     items(state.value.tasks) { task ->
-                        TaskItem(task, viewModel)
+                        TaskItem(
+                            task = task,
+                            onEdit = { onEditTask(task) },
+                            onDelete = { viewModel.deleteTask(task) }
+                        )
                     }
                 }
             }
@@ -92,7 +97,8 @@ fun TaskListScreen(
 @Composable
 fun TaskItem(
     task: Task,
-    viewModel: TaskListViewModel
+    onEdit: () -> Unit,
+    onDelete: () -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -108,7 +114,7 @@ fun TaskItem(
                 Row {
                     IconButton(
                         onClick = {
-                            /*TODO*/
+                            onEdit()
                         },
                         modifier = Modifier
                             .padding(8.dp)
@@ -122,7 +128,7 @@ fun TaskItem(
 
                     IconButton(
                         onClick = {
-                            viewModel.deleteTask(task)
+                            onDelete()
                         },
                         modifier = Modifier
                             .padding(8.dp)

@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,8 +40,17 @@ fun TaskFormScreen(
     viewModel: TaskFormViewModel,
     onTaskSaved: () -> Unit
 ) {
+    var selectedTask = viewModel.selectedTask.collectAsState()
+
     var title by remember { mutableStateOf(TextFieldValue("")) }
     var description by remember { mutableStateOf(TextFieldValue("")) }
+
+    LaunchedEffect(selectedTask) {
+        selectedTask.let { task ->
+            title = TextFieldValue(task.value?.title ?: "")
+            description = TextFieldValue(task.value?.description ?: "")
+        }
+    }
 
     Box(
         modifier = modifier
@@ -84,7 +95,10 @@ fun TaskFormScreen(
                 )
             },
             onClick = {
-               val task = Task(
+               val task = viewModel.selectedTask.value?.copy(
+                   title = title.text,
+                   description = description.text
+               ) ?: Task(
                    title = title.text,
                    description = description.text,
                )
